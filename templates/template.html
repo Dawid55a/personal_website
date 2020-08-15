@@ -49,10 +49,10 @@
                         Login
                     </button>
                     <div aria-labelledby="dropdownMenuButton" class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="./login">Login</a>
+                        <a class="dropdown-item" href="/login">Login</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/register">Register</a>
                     </div>
                 </div>
             </li>
@@ -60,6 +60,16 @@
     </div>
 </nav>
 <!--NavBarEnd-->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    You have been logged in successfully.
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+{% endwith %}
 {% block content %}
 {% endblock %}
 <!--Scripts-->
