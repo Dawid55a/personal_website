@@ -25,7 +25,7 @@ class User(db.Model):
 
 
 db.create_all()
-if User.query.filter_by(username='admin') == False:
+if not User.query.filter_by(username='admin'):
     admin = User(email="admin@root.com",username="YourMaster", password="admin")
     db.session.add(admin)
     db.session.commit()
@@ -59,7 +59,12 @@ def logout():
 
 @app.route("/user/<username>")
 def username(username):
-    return f"<h1>{username}</h1>"
+    data = User.query.filter_by(email=username).first_or_404("Upppss, something went wrong")
+
+    return f"<h1>{data.username}</h1>" \
+           f"<h1>{data.email}</h1>" \
+           f"<h1>{data.password}</h1>" \
+           f"<p>{data}</p>"
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -67,6 +72,7 @@ def register():
     if request.method == "POST":
         user = User(username=request.form['username'], email=request.form['email'], password=request.form['password'])
         db.session.add(user)
+        db.session.commit()
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
